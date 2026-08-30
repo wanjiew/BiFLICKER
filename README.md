@@ -49,8 +49,8 @@ experiments:
 - `Exp2.m`: convergence as the number of BiFLICKER iterations changes;
 - `Figure1.m` and `Figure2.m`: construct the corresponding paper figures;
 - `BiFLICKER.m` and `BiFLICKER_conv.m`: main estimators; and
-- `DistPCA.m`, `disPCA.m`, `FastPCA.m`, and `DistributedCoresetAndPCA/`:
-  comparison methods.
+- `DistPCA.m`, `disPCA.m`, and `FastPCA.m`: comparison methods. The
+  `disPCA.m` implementation is based on Liang et al. (2014), as cited below.
 
 Run from MATLAB:
 
@@ -103,3 +103,14 @@ The repository's original software is released under the [MIT License](LICENSE).
 That license applies to the code, not to third-party datasets. Dataset users
 remain responsible for the terms and attribution requirements of the original
 data providers. Row-level movie and Last.fm data are not redistributed here.
+
+## Method reference
+
+The `disPCA` simulation baseline is an independent implementation of the
+distributed PCA algorithm described in:
+
+> Maria-Florina F. Balcan, Vandana Kanchanapally, Yingyu Liang, and David P.
+> Woodruff. “Improved Distributed Principal Component Analysis.” *Advances in
+> Neural Information Processing Systems 27*, 2014.
+> [Paper](https://proceedings.neurips.cc/paper_files/paper/2014/hash/e968f1646c1c6c35422b64c0934772a4-Abstract.html) ·
+> [arXiv](https://arxiv.org/abs/1408.5823)
