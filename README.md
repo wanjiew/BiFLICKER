@@ -4,6 +4,20 @@ This repository contains code and aggregate reproducible results accompanying
 the BiFLICKER project on federated spectral community detection in bipartite
 networks. Row-level third-party data are not redistributed.
 
+## Algorithm variants
+
+The repository contains two related estimators:
+
+- **BiFLICKER** estimates the singular directions associated with different
+  target singular values independently. The directions can therefore be
+  computed in parallel when the targets are sufficiently separated. This is
+  the version used in the simulation study and the movie-rating application.
+- **Sequential BiFLICKER** estimates target directions in descending order and
+  projects each iterate onto the orthogonal complement of the previously
+  recovered directions. This extension is intended for spectra with small
+  eigengaps, where nearby targets may otherwise recover the same direction. It
+  is the version used in the Last.fm 1K application.
+
 ## Repository structure
 
 ```text
@@ -69,8 +83,9 @@ be regenerated from `Exp1.m` and `Exp2.m`.
 
 This application constructs a cleaned binary user–artist bipartite network,
 splits users into country servers, and compares local, centralized, and
-BiFLICKER community detection. It also contains the final demographic,
-listening-behavior, representative-artist, and community-genre analyses.
+Sequential BiFLICKER community detection. It also contains the final
+demographic, listening-behavior, representative-artist, and community-genre
+analyses.
 
 The directory includes its own detailed documentation:
 

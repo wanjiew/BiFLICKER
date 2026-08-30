@@ -3,7 +3,7 @@
 This repository contains the complete Last.fm 1K application for federated
 community detection in a user–artist bipartite network. It includes the final
 preprocessing workflow, country-level data splits, local and centralized
-spectral benchmarks, the BiFLICKER analysis, comparison figures, and
+spectral benchmarks, the Sequential BiFLICKER analysis, comparison figures, and
 user-community interpretation.
 
 The analyzed adjacency matrix is binary: an edge indicates that a user listened
@@ -41,9 +41,10 @@ The scripts form one sequential workflow:
 1. `01_prepare_lastfm1k.py` streams the raw files, applies all filters, writes
    the cleaned network and metadata, and generates preparation diagnostics.
 2. `02_spectral_community_analysis.R` creates country splits and runs local
-   SVD/community detection, centralized SVD/community detection, and BiFLICKER.
-3. `03_country_label_ari_figure.R` compares local, centralized, and BiFLICKER
-   assignments by country using the adjusted Rand index (ARI).
+   SVD/community detection, centralized SVD/community detection, and Sequential
+   BiFLICKER.
+3. `03_country_label_ari_figure.R` compares local, centralized, and Sequential
+   BiFLICKER assignments by country using the adjusted Rand index (ARI).
 4. `04_user_community_interpretation.R` produces the demographic table, the
    three-panel listening-behavior figure, representative-artist statistics,
    and community-level genre interpretations.
@@ -62,8 +63,8 @@ The scripts form one sequential workflow:
 
 - `local/`: aggregate local singular-value diagnostics for each country server.
 - `central/`: centralized singular-value diagnostics.
-- `biflicker/`: BiFLICKER singular-value and convergence diagnostics and run
-  settings.
+- `biflicker/`: Sequential BiFLICKER singular-value and convergence diagnostics
+  and run settings.
 - `comparisons/`: country-level ARI values and grouped comparison figure.
 - `interpretation/`: community demographics; breadth, activity, and pairwise
   binary-cosine similarity; representative artists and coverage; and the
@@ -102,7 +103,9 @@ All final analyses use seven spectral components and seven user communities.
 User embeddings are clustered by k-means with 1,000 random starts and seed 42.
 The same cleaned binary network underlies all three analyses.
 
-BiFLICKER uses sequential deflation. Target singular values are obtained by
+Sequential BiFLICKER estimates the target directions in descending order and
+projects each iterate onto the orthogonal complement of the previously
+recovered directions. Target singular values are obtained by
 rescaling the corresponding local singular values from the largest server. The
 revised iteration updates the current Rayleigh-based singular-value estimates
 at every step while retaining the fixed target in the gradient. Each direction
@@ -113,13 +116,14 @@ directions that reach the iteration limit, are retained in
 `results/biflicker/convergence_trace.csv` and
 `results/biflicker/eigenvalues.csv`.
 
-The final BiFLICKER community sizes are 224, 73, 68, 62, 35, 33, and 16. The
-overall agreement between centralized and BiFLICKER user assignments is
-ARI = 0.943. Community numbers are labels and have no ordinal meaning.
+The final Sequential BiFLICKER community sizes are 224, 73, 68, 62, 35, 33,
+and 16. The overall agreement between centralized and Sequential BiFLICKER
+user assignments is ARI = 0.943. Community numbers are labels and have no
+ordinal meaning.
 
 ## Community interpretation
 
-The interpretation uses the BiFLICKER assignments.
+The interpretation uses the Sequential BiFLICKER assignments.
 
 - Listening breadth is the number of distinct retained artists heard by a user.
 - Activity is the total number of retained listening events for a user.

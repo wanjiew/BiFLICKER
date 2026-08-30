@@ -12,7 +12,7 @@
 #   residual_tolerance = 0.05       maximum left/right relative residual
 #   estimate_change_tolerance=1e-4  maximum relative Rayleigh-value change
 #   convergence_patience = 3        consecutive successful checkpoints
-#   upper_multiplier = 2            BiFLICKER upper spectral bound multiplier
+#   upper_multiplier = 2            Sequential BiFLICKER upper spectral bound multiplier
 #   step_safety = 1                 multiplier in the fixed step size
 #   seed = 42                       reproducibility seed
 #
@@ -20,7 +20,7 @@
 #   preparation/data/country_splits/  country-specific binary matrices/maps
 #   results/local/                     local SVD and user communities
 #   results/central/                   centralized SVD and user communities
-#   results/biflicker/                 BiFLICKER SVD, communities, convergence
+#   results/biflicker/                 Sequential BiFLICKER outputs
 
 suppressPackageStartupMessages(library(Matrix))
 
@@ -253,9 +253,9 @@ write_svd_outputs(
 )
 
 # ---------------------------------------------------------------------------
-# Sequential-deflation BiFLICKER
+# Sequential BiFLICKER
 # ---------------------------------------------------------------------------
-message("Running BiFLICKER with sequential deflation...")
+message("Running Sequential BiFLICKER...")
 reference_server <- which.max(block_sizes)
 reference_svd <- local_svd[[reference_server]]
 targets <- sqrt(n / block_sizes[reference_server]) * reference_svd$singular_values

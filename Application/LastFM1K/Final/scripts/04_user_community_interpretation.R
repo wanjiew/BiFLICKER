@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# Final interpretation analysis for the L = 7 BiFLICKER user communities.
+# Final interpretation analysis for the L = 7 Sequential BiFLICKER user communities.
 #
 # Part I: demographic and country-composition summary table
 #
@@ -226,7 +226,7 @@ draw_box_panel <- function(values, ticks, y_label, panel_label) {
     outbg = adjustcolor("#555555", alpha.f = 0.40),
     outcol = adjustcolor("#555555", alpha.f = 0.50),
     xaxt = "n", yaxt = "n",
-    xlab = "BiFLICKER community",
+    xlab = "Sequential BiFLICKER community",
     ylab = y_label
   )
   axis(2, at = log10(ticks), labels = format_tick(ticks), cex.axis = 0.78)
@@ -247,7 +247,7 @@ draw_similarity_panel <- function() {
     border = community_colors,
     lwd = 1.15,
     ylim = c(0, upper_limit),
-    xlab = "BiFLICKER community",
+    xlab = "Sequential BiFLICKER community",
     ylab = "Pairwise similarity between users",
     cex.names = 0.66,
     space = 0.36
@@ -306,7 +306,7 @@ draw_figure()
 dev.off()
 
 # -----------------------------------------------------------------------------
-# Part II. Representative artists for each BiFLICKER user community
+# Part II. Representative artists for each Sequential BiFLICKER user community
 # -----------------------------------------------------------------------------
 
 # An artist must be sufficiently common within a community and more prevalent

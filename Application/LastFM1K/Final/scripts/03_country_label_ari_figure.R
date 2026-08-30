@@ -3,8 +3,8 @@
 # Country-level comparison of user-community labels.
 # Produces grouped ARI bars for:
 #   A. Centralized vs Local
-#   B. BiFLICKER vs Local
-#   C. Centralized vs BiFLICKER
+#   B. Sequential BiFLICKER vs Local
+#   C. Centralized vs Sequential BiFLICKER
 
 script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
 if (length(script_arg) != 1L) stop("Cannot resolve script path")
@@ -95,8 +95,8 @@ bar_density <- c(NA, NA, 18)
 bar_angle <- c(45, 45, 45)
 legend_labels <- c(
   "Centralized vs Local",
-  "BiFLICKER vs Local",
-  "Centralized vs BiFLICKER"
+  "Sequential BiFLICKER vs Local",
+  "Centralized vs Sequential BiFLICKER"
 )
 y_min <- min(0, floor(10 * (min(values) - 0.05)) / 10)
 

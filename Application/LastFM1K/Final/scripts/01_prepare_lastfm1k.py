@@ -31,7 +31,7 @@ Default outputs are written below ``Final/preparation``:
     summary/    one consolidated data summary and the numerical spectrum
     figures/    degree-distribution plots and singular-value elbow plots
 
-The BiFLICKER adjacency is binary.  The edge list additionally retains the
+The Sequential BiFLICKER adjacency is binary.  The edge list additionally retains the
 number of listening events as ``event_count`` for post-hoc interpretation.
 """
 
@@ -473,7 +473,7 @@ def main() -> None:
         data_dir / "bipartite_network.mtx.gz", "wt", encoding="utf-8", newline=""
     ) as handle:
         handle.write("%%MatrixMarket matrix coordinate integer general\n")
-        handle.write("% Binary user-by-artist adjacency used by BiFLICKER\n")
+        handle.write("% Binary user-by-artist adjacency used by Sequential BiFLICKER\n")
         handle.write(f"{len(active_users)} {len(artist_order)} {edge_count}\n")
         for user_id in active_users:
             for mbid in pairs[user_id]:
