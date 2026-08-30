@@ -1,0 +1,20 @@
+.DS_Store
+**/.DS_Store
+.Rhistory
+*.asv
+tmp/
+
+# Raw Last.fm data are downloaded separately and must not be committed.
+Application/LastFM1K/data/raw/
+
+# Processed row-level data and embeddings are regenerated locally.
+Data/*.csv
+Application/LastFM1K/Final/preparation/data/
+Application/LastFM1K/Final/results/**/left_eigenvectors_users.csv.gz
+Application/LastFM1K/Final/results/**/right_eigenvectors_artists.csv.gz
+Application/LastFM1K/Final/results/**/user_communities.csv
+
+# Large simulation run outputs are reproducible from the MATLAB scripts.
+Simulation/Exp1/
+Simulation/Exp2/
+Simulation/DistributedCoresetAndPCA/pendigits.mat

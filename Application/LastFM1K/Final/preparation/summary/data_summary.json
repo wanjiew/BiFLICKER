@@ -1,0 +1,228 @@
+{
+  "dataset": "Last.fm 1K",
+  "citations": {
+    "dataset_page": "http://ocelma.net/MusicRecommendationDataset/lastfm-1K.html",
+    "archive_doi": "https://doi.org/10.5281/zenodo.6090214",
+    "book_doi": "https://doi.org/10.1007/978-3-642-13287-2"
+  },
+  "parameters": {
+    "min_country_users": 30,
+    "country_rule": "profile user count >= min_country_users",
+    "require_valid_mbid": true,
+    "min_artist_users": 10,
+    "artist_lower_rule": "degree >= min_artist_users",
+    "max_artist_user_proportion": 0.4,
+    "artist_upper_rule": "degree / current retained users < max proportion",
+    "min_user_artists": 50,
+    "user_rule": "retained artist degree >= min_user_artists",
+    "max_timestamp_exclusive": "2009-05-05T00:00:00Z"
+  },
+  "raw_checksums_md5": {
+    "userid-profile.tsv": "c53608b6b445db201098c1489ea497df",
+    "userid-timestamp-artid-artname-traid-traname.tsv": "64747b21563e3d2aa95751e0ddc46b68"
+  },
+  "counts": {
+    "profile_users": 992,
+    "eligible_countries": 7,
+    "selected_country_users_before_core": 539,
+    "users_with_selected_event_record": 539,
+    "valid_mbid_artists_before_core": 79167,
+    "retained_users": 511,
+    "retained_artists": 8632,
+    "retained_binary_edges": 288628,
+    "retained_listening_events": 7164222,
+    "first_excluded_artist_degree_at_final_n": 205
+  },
+  "network_summary": {
+    "density": 0.0654344005557077,
+    "user_degree": {
+      "minimum": 51,
+      "q25": 212.0,
+      "median": 390,
+      "mean": 564.8297455968689,
+      "q75": 682.0,
+      "maximum": 3965
+    },
+    "artist_degree": {
+      "minimum": 10,
+      "q25": 13.0,
+      "median": 20.0,
+      "mean": 33.436978683966636,
+      "q75": 39.0,
+      "maximum": 204
+    },
+    "edge_event_count": {
+      "minimum": 1,
+      "q25": 1.0,
+      "median": 3.0,
+      "mean": 24.82164585556495,
+      "q75": 13.0,
+      "maximum": 12005
+    },
+    "connected_components": 1,
+    "largest_component_nodes": 9143,
+    "largest_component_node_fraction": 1.0
+  },
+  "profile_missingness": {
+    "users_with_missing_age": 362,
+    "users_with_missing_gender": 32,
+    "artists_with_missing_mbid": 0
+  },
+  "country_summary": [
+    {
+      "server_id": 1,
+      "country": "United States",
+      "profile_users": 228,
+      "users_before_core": 228,
+      "retained_users": 216,
+      "binary_edges": 124211,
+      "retained_events": 3243622,
+      "average_user_degree": 575.050925925926,
+      "median_user_degree": 388.0,
+      "minimum_user_degree": 51,
+      "user_degree_q25": 206.25,
+      "user_degree_q75": 652.0,
+      "maximum_user_degree": 3965
+    },
+    {
+      "server_id": 2,
+      "country": "United Kingdom",
+      "profile_users": 126,
+      "users_before_core": 126,
+      "retained_users": 121,
+      "binary_edges": 76941,
+      "retained_events": 1574040,
+      "average_user_degree": 635.8760330578513,
+      "median_user_degree": 456,
+      "minimum_user_degree": 58,
+      "user_degree_q25": 258,
+      "user_degree_q75": 901,
+      "maximum_user_degree": 2224
+    },
+    {
+      "server_id": 3,
+      "country": "Poland",
+      "profile_users": 50,
+      "users_before_core": 50,
+      "retained_users": 46,
+      "binary_edges": 22390,
+      "retained_events": 582649,
+      "average_user_degree": 486.7391304347826,
+      "median_user_degree": 366.0,
+      "minimum_user_degree": 61,
+      "user_degree_q25": 158.0,
+      "user_degree_q75": 703.5,
+      "maximum_user_degree": 2652
+    },
+    {
+      "server_id": 4,
+      "country": "Germany",
+      "profile_users": 36,
+      "users_before_core": 36,
+      "retained_users": 36,
+      "binary_edges": 20160,
+      "retained_events": 325304,
+      "average_user_degree": 560.0,
+      "median_user_degree": 387.0,
+      "minimum_user_degree": 62,
+      "user_degree_q25": 209.25,
+      "user_degree_q75": 724.0,
+      "maximum_user_degree": 1956
+    },
+    {
+      "server_id": 5,
+      "country": "Finland",
+      "profile_users": 32,
+      "users_before_core": 32,
+      "retained_users": 31,
+      "binary_edges": 12567,
+      "retained_events": 536662,
+      "average_user_degree": 405.38709677419354,
+      "median_user_degree": 290,
+      "minimum_user_degree": 80,
+      "user_degree_q25": 197.0,
+      "user_degree_q75": 506.0,
+      "maximum_user_degree": 1538
+    },
+    {
+      "server_id": 6,
+      "country": "Norway",
+      "profile_users": 35,
+      "users_before_core": 35,
+      "retained_users": 31,
+      "binary_edges": 15278,
+      "retained_events": 356166,
+      "average_user_degree": 492.83870967741933,
+      "median_user_degree": 360,
+      "minimum_user_degree": 61,
+      "user_degree_q25": 257.0,
+      "user_degree_q75": 702.0,
+      "maximum_user_degree": 1878
+    },
+    {
+      "server_id": 7,
+      "country": "Canada",
+      "profile_users": 32,
+      "users_before_core": 32,
+      "retained_users": 30,
+      "binary_edges": 17081,
+      "retained_events": 545779,
+      "average_user_degree": 569.3666666666667,
+      "median_user_degree": 385.0,
+      "minimum_user_degree": 95,
+      "user_degree_q25": 305.0,
+      "user_degree_q75": 604.5,
+      "maximum_user_degree": 1667
+    }
+  ],
+  "selected_country_profile_counts": {
+    "United States": 228,
+    "United Kingdom": 126,
+    "Poland": 50,
+    "Germany": 36,
+    "Norway": 35,
+    "Finland": 32,
+    "Canada": 32
+  },
+  "core_filter_history": [
+    {
+      "iteration": 1,
+      "input_users": 539,
+      "candidate_artists": 79167,
+      "artists_below_lower_bound": 70413,
+      "artists_at_or_above_upper_bound": 89,
+      "eligible_artists": 8665,
+      "eligible_users": 511,
+      "users_below_lower_bound": 28,
+      "artist_upper_degree_exclusive": 215.60000000000002
+    },
+    {
+      "iteration": 2,
+      "input_users": 511,
+      "candidate_artists": 79069,
+      "artists_below_lower_bound": 70333,
+      "artists_at_or_above_upper_bound": 104,
+      "eligible_artists": 8632,
+      "eligible_users": 511,
+      "users_below_lower_bound": 0,
+      "artist_upper_degree_exclusive": 204.4
+    },
+    {
+      "iteration": 3,
+      "input_users": 511,
+      "candidate_artists": 79069,
+      "artists_below_lower_bound": 70333,
+      "artists_at_or_above_upper_bound": 104,
+      "eligible_artists": 8632,
+      "eligible_users": 511,
+      "users_below_lower_bound": 0,
+      "artist_upper_degree_exclusive": 204.4
+    }
+  ],
+  "event_stream_audit": {
+    "raw_event_rows": 19150868,
+    "selected_valid_mbid_events": 10808941,
+    "selected_events_without_mbid": 328926,
+    "selected_events_after_cutoff": 68090
+  }
+}
