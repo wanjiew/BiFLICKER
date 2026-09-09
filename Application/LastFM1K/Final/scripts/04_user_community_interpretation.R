@@ -197,60 +197,84 @@ community_colors <- c(
   "#1B9E77", "#D95F02", "#7570B3", "#E7298A",
   "#66A61E", "#E6AB02", "#A6761D"
 )[seq_along(community_ids)]
-community_labels <- sprintf(
-  "C%d\n(n=%d)", community_ids,
-  vapply(community_ids, function(x) sum(communities$community == x), integer(1))
+community_labels <- paste0("C", community_ids)
+community_sizes <- vapply(
+  community_ids,
+  function(x) sum(communities$community == x),
+  integer(1)
 )
 
 format_tick <- function(value) {
   format(value, big.mark = ",", scientific = FALSE, trim = TRUE)
 }
 
-draw_box_panel <- function(values, ticks, y_label, panel_label) {
+draw_box_panel <- function(
+  values, ticks, y_label, panel_title, annotate_sizes = FALSE,
+  title_adjustment = 0.5, tick_labels = NULL,
+  colors = community_colors
+) {
   groups <- lapply(community_ids, function(community_id) {
     log10(values[user_metrics$community == community_id])
   })
-  boxplot(
+  plot_limits <- range(unlist(groups), finite = TRUE)
+  if (annotate_sizes) plot_limits[2] <- plot_limits[2] + 0.48
+  box_result <- boxplot(
     groups,
-    names = FALSE,
-    col = adjustcolor(community_colors, alpha.f = 0.68),
-    border = community_colors,
-    lwd = 1.15,
+    names = community_labels,
+    col = adjustcolor(colors, alpha.f = 0.68),
+    border = colors,
     medcol = "#202020",
     medlwd = 1.8,
     whisklty = 1,
     staplewex = 0.55,
+    lwd = 1.15,
     outline = TRUE,
     outpch = 21,
     outcex = 0.42,
-    outbg = adjustcolor("#555555", alpha.f = 0.40),
-    outcol = adjustcolor("#555555", alpha.f = 0.50),
+    outbg = "grey72",
+    outcol = "grey55",
     xaxt = "n", yaxt = "n",
-    xlab = "Sequential BiFLICKER community",
-    ylab = y_label
+    xlab = "", ylab = y_label,
+    ylim = plot_limits
   )
-  axis(2, at = log10(ticks), labels = format_tick(ticks), cex.axis = 0.78)
+  if (is.null(tick_labels)) tick_labels <- format_tick(ticks)
+  axis(2, at = log10(ticks), labels = tick_labels, cex.axis = 1)
   axis(
     1, at = seq_along(community_ids), labels = community_labels,
-    tick = FALSE, line = 0.15, cex.axis = 0.66
+    tick = FALSE, line = -0.10, cex.axis = 1,
+    gap.axis = -1, las = 2
   )
-  mtext(panel_label, side = 3, adj = 0.5, line = 0.3, font = 2, cex = 1.0)
+  if (annotate_sizes) {
+    text(
+      seq_along(community_ids), box_result$stats[5, ] + 0.035,
+      labels = sprintf("n=%d", community_sizes),
+      cex = 1, srt = 90, adj = c(0, 0.5), xpd = FALSE
+    )
+  }
+  mtext(
+    panel_title, side = 3, line = 0.75,
+    font = 2, adj = title_adjustment
+  )
 }
 
-draw_similarity_panel <- function() {
-  par(mar = c(5.0, 5.65, 2.6, 0.8), mgp = c(3.55, 0.72, 0))
+draw_similarity_panel <- function(colors = community_colors) {
   upper_limit <- max(similarity$ci_upper_95) * 1.12
   positions <- barplot(
     similarity$average_binary_cosine_similarity,
     names.arg = community_labels,
-    col = adjustcolor(community_colors, alpha.f = 0.68),
-    border = community_colors,
+    col = adjustcolor(colors, alpha.f = 0.68),
+    border = colors,
     lwd = 1.15,
     ylim = c(0, upper_limit),
-    xlab = "Sequential BiFLICKER community",
+    xaxt = "n",
+    xlab = "",
     ylab = "Pairwise similarity between users",
-    cex.names = 0.66,
-    space = 0.36
+    space = 0.28
+  )
+  axis(
+    1, at = positions, labels = community_labels,
+    tick = FALSE, line = -0.10, cex.axis = 1,
+    gap.axis = -1, las = 2
   )
   arrows(
     positions, similarity$ci_lower_95,
@@ -258,8 +282,10 @@ draw_similarity_panel <- function() {
     angle = 90, code = 3, length = 0.038,
     lwd = 1.2, col = "#333333"
   )
-  mtext("Within-community similarity", side = 3, adj = 0.5,
-        line = 0.3, font = 2, cex = 1.0)
+  mtext(
+    "Within-community similarity",
+    side = 3, line = 0.75, font = 2, adj = 1
+  )
 }
 
 draw_figure <- function() {
@@ -267,46 +293,63 @@ draw_figure <- function() {
   on.exit(par(old))
   par(
     mfrow = c(1, 3),
-    mar = c(5.0, 4.55, 2.6, 0.8),
-    oma = c(0, 0, 2.0, 0),
-    mgp = c(2.75, 0.72, 0),
-    las = 1
+    mar = c(3.15, 4.4, 2.0, 0.3),
+    oma = c(1.55, 0, 0, 0),
+    mgp = c(2.45, 0.55, 0),
+    tcl = -0.25, las = 1
   )
+  # par(mfrow = c(1, 3)) otherwise applies an automatic text shrink.
+  par(cex = 1)
   draw_box_panel(
     user_metrics$listening_breadth,
-    ticks = c(50, 100, 200, 500, 1000, 2000, 4000),
+    ticks = c(50, 100, 500, 1000, 4000),
+    tick_labels = c("50", "100", "500", "1K", "4K"),
     y_label = "Number of artists",
-    panel_label = "Listening breadth"
+    panel_title = "Listening breadth",
+    annotate_sizes = TRUE
   )
   draw_box_panel(
     user_metrics$activity,
-    ticks = c(100, 300, 1000, 3000, 10000, 30000, 100000),
+    ticks = c(100, 1000, 10000, 100000),
+    tick_labels = c("100", "1k", "10k", "100k"),
     y_label = "Number of listening activities",
-    panel_label = "Activity"
+    panel_title = "Activity",
+    annotate_sizes = FALSE
   )
   draw_similarity_panel()
   mtext(
-    "Listening behavior and profile similarity by user community",
-    side = 3, outer = TRUE, line = 0.55, font = 2, cex = 1.18
+    "BiFLICKER community",
+    side = 1, outer = TRUE, line = -0.45
   )
 }
 
+manuscript_text_width_in <- 345 / 72.27 + 1
+figure_width_in <- 1.10 * manuscript_text_width_in
+figure_height_in <- 3.05
+figure_pointsize <- 10.5
+
 pdf(
   file.path(output_dir, "biflicker_three_panel_interpretation.pdf"),
-  width = 15, height = 5.8, useDingbats = FALSE
+  width = figure_width_in,
+  height = figure_height_in,
+  pointsize = figure_pointsize,
+  useDingbats = FALSE
 )
 draw_figure()
 dev.off()
 
 png(
   file.path(output_dir, "biflicker_three_panel_interpretation.png"),
-  width = 3000, height = 1160, res = 200
+  width = figure_width_in,
+  height = figure_height_in,
+  units = "in", res = 300,
+  pointsize = figure_pointsize
 )
 draw_figure()
 dev.off()
 
 # -----------------------------------------------------------------------------
-# Part II. Representative artists for each Sequential BiFLICKER user community
+# Part II. Representative artists for each BiFLICKER user community
 # -----------------------------------------------------------------------------
 
 # An artist must be sufficiently common within a community and more prevalent
